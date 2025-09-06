@@ -1,0 +1,12 @@
+gradio
+langchain_groq
+langgraph
+fastrtc[vad, stt, tts]
+numpy
+requests
+dotenv
+groq
+gradio_client
+
+
+
