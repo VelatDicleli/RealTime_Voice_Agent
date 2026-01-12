@@ -1,18 +1,18 @@
 # 🎙️ RealTime Voice Agent
 
-Gerçek zamanlı sesli AI asistan uygulaması. WebRTC tabanlı ses iletişimi, Groq Whisper ile ses tanıma, ElevenLabs ile ses sentezi ve LangGraph ReAct agent ile akıllı yanıtlar sunar.
+A real-time voice AI assistant application. Features WebRTC-based audio communication, speech recognition with Groq Whisper, voice synthesis with ElevenLabs, and intelligent responses powered by LangGraph ReAct agent.
 
-## 🏗️ Mimari
+## 🏗️ Architecture
 
 ```
 ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│   Kullanıcı     │────▶│   FastRTC       │────▶│   Groq Whisper  │
-│   (Mikrofon)    │     │   (WebRTC)      │     │   (STT)         │
+│      User       │────▶│    FastRTC      │────▶│  Groq Whisper   │
+│   (Microphone)  │     │    (WebRTC)     │     │     (STT)       │
 └─────────────────┘     └─────────────────┘     └────────┬────────┘
                                                          │
 ┌─────────────────┐     ┌─────────────────┐     ┌────────▼────────┐
 │   ElevenLabs    │◀────│   ReAct Agent   │◀────│   LangChain     │
-│   (TTS)         │     │   (LangGraph)   │     │   Processing    │
+│     (TTS)       │     │   (LangGraph)   │     │   Processing    │
 └────────┬────────┘     └────────┬────────┘     └─────────────────┘
          │                       │
          │              ┌────────▼────────┐
@@ -21,32 +21,32 @@ Gerçek zamanlı sesli AI asistan uygulaması. WebRTC tabanlı ses iletişimi, G
          │              └─────────────────┘
          ▼
 ┌─────────────────┐
-│   Kullanıcı     │
-│   (Hoparlör)    │
+│      User       │
+│    (Speaker)    │
 └─────────────────┘
 ```
 
-## ✨ Özellikler
+## ✨ Features
 
-- **🎤 Gerçek Zamanlı Ses İletişimi**: FastRTC ve WebRTC ile düşük gecikmeli ses akışı
-- **🗣️ Ses Tanıma (STT)**: Groq Whisper Large V3 modeli ile Türkçe ses tanıma
-- **🔊 Ses Sentezi (TTS)**: ElevenLabs multilingual v2 modeli ile doğal Türkçe ses
-- **🤖 Akıllı Agent**: LangGraph ReAct pattern ile araç kullanabilen AI asistan
-- **🔧 Tool Calling**: n8n webhook entegrasyonu ile harici araç çağrıları
-- **🌐 WebRTC**: Cloudflare TURN sunucuları ile güvenilir bağlantı
-- **🎯 VAD**: Silero VAD ile akıllı konuşma algılama
+- **🎤 Real-Time Audio Communication**: Low-latency audio streaming with FastRTC and WebRTC
+- **🗣️ Speech Recognition (STT)**: Turkish speech recognition using Groq Whisper Large V3
+- **🔊 Voice Synthesis (TTS)**: Natural Turkish voice with ElevenLabs Multilingual V2
+- **🤖 Intelligent Agent**: AI assistant with tool-calling capabilities using LangGraph ReAct pattern
+- **🔧 Tool Calling**: External tool invocation via n8n webhook integration
+- **🌐 WebRTC**: Reliable connections through Cloudflare TURN servers
+- **🎯 VAD**: Smart speech detection with Silero VAD
 
-## 🛠️ Mevcut Araçlar (Tools)
+## 🛠️ Available Tools
 
-| Araç | Açıklama |
-|------|----------|
-| `retrieve_data_from_vector_store` | Vector store'dan veri sorgulama |
-| `weather_info` | Hava durumu bilgisi alma |
-| `email_send` | E-posta gönderme |
-| `calendar_create` | Takvim etkinliği oluşturma |
-| `append_sheets_row` | Google Sheets'e satır ekleme |
+| Tool | Description |
+|------|-------------|
+| `retrieve_data_from_vector_store` | Query data from vector store |
+| `weather_info` | Get current weather information |
+| `email_send` | Send email |
+| `calendar_create` | Create calendar event |
+| `append_sheets_row` | Append row to Google Sheets |
 
-## 📋 Gereksinimler
+## 📋 Requirements
 
 - Python 3.10+
 - Groq API Key
@@ -54,16 +54,16 @@ Gerçek zamanlı sesli AI asistan uygulaması. WebRTC tabanlı ses iletişimi, G
 - Cloudflare TURN Credentials
 - HuggingFace Token
 
-## ⚙️ Kurulum
+## ⚙️ Installation
 
-### 1. Repoyu klonlayın
+### 1. Clone the repository
 
 ```bash
 git clone <repo-url>
 cd RealTime_Voice_Agent
 ```
 
-### 2. Sanal ortam oluşturun
+### 2. Create virtual environment
 
 ```bash
 python -m venv venv
@@ -75,15 +75,15 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
-### 3. Bağımlılıkları yükleyin
+### 3. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Ortam değişkenlerini ayarlayın
+### 4. Configure environment variables
 
-Proje kök dizininde `.env` dosyası oluşturun:
+Create a `.env` file in the project root:
 
 ```env
 GROQ_API_KEY=your_groq_api_key
@@ -93,64 +93,64 @@ CLOUDFLARE_TURN_KEY_ID=your_cloudflare_turn_key_id
 CLOUDFLARE_TURN_KEY_API_TOKEN=your_cloudflare_turn_api_token
 ```
 
-## 🚀 Çalıştırma
+## 🚀 Usage
 
 ```bash
 python app.py
 ```
 
-Uygulama varsayılan olarak `http://0.0.0.0:7866` adresinde başlayacaktır.
+The application will start at `http://0.0.0.0:7866` by default.
 
-## 📁 Dosya Yapısı
+## 📁 Project Structure
 
 ```
 RealTime_Voice_Agent/
-├── app.py                  # Ana uygulama - WebRTC stream ve ses işleme
-├── reAct_agent.py          # LangGraph ReAct agent tanımları
-├── handle_tool_calling.py  # n8n webhook entegrasyonu
-├── requirements.txt        # Python bağımlılıkları
-├── .env                    # Ortam değişkenleri (oluşturulmalı)
-└── README.md               # Bu dosya
+├── app.py                  # Main application - WebRTC stream & audio processing
+├── reAct_agent.py          # LangGraph ReAct agent definitions
+├── handle_tool_calling.py  # n8n webhook integration
+├── requirements.txt        # Python dependencies
+├── .env                    # Environment variables (create this)
+└── README.md               # This file
 ```
 
-## 🔧 Konfigürasyon
+## 🔧 Configuration
 
-### VAD (Voice Activity Detection) Ayarları
+### VAD (Voice Activity Detection) Settings
 
-`app.py` içinde VAD parametrelerini özelleştirebilirsiniz:
+Customize VAD parameters in `app.py`:
 
 ```python
 algo_options=AlgoOptions(
-    audio_chunk_duration=0.6,      # Ses parça süresi
-    started_talking_threshold=0.2, # Konuşma başlangıç eşiği
-    speech_threshold=0.1,          # Konuşma eşiği
+    audio_chunk_duration=0.6,      # Audio chunk duration
+    started_talking_threshold=0.2, # Speech start threshold
+    speech_threshold=0.1,          # Speech threshold
 ),
 model_options=SileroVadOptions(
-    threshold=0.65,                # VAD eşiği
-    min_speech_duration_ms=300,    # Minimum konuşma süresi
-    min_silence_duration_ms=150,   # Minimum sessizlik süresi
+    threshold=0.65,                # VAD threshold
+    min_speech_duration_ms=300,    # Minimum speech duration
+    min_silence_duration_ms=150,   # Minimum silence duration
 ),
 ```
 
-### TTS Ayarları
+### TTS Settings
 
-ElevenLabs ses ayarlarını `tts_generate` fonksiyonunda değiştirebilirsiniz:
+Modify ElevenLabs voice settings in the `tts_generate` function:
 
 ```python
-voice_id="JBFqnCBsd6RMkjVDRZzb"  # Ses ID'si
+voice_id="JBFqnCBsd6RMkjVDRZzb"  # Voice ID
 model_id="eleven_multilingual_v2" # Model
-language_code="tr"                # Dil
+language_code="tr"                # Language
 ```
 
-## 📡 n8n Webhook Entegrasyonu
+## 📡 n8n Webhook Integration
 
-Tool çağrıları `handle_tool_calling.py` üzerinden n8n webhook'una yönlendirilir. Webhook URL'ini güncellemek için:
+Tool calls are routed to n8n webhook via `handle_tool_calling.py`. To update the webhook URL:
 
 ```python
 webhook_url = "https://your-n8n-instance/webhook/your-webhook-id"
 ```
 
-Webhook'a gönderilen payload formatı:
+Payload format sent to webhook:
 
 ```json
 {
@@ -161,35 +161,34 @@ Webhook'a gönderilen payload formatı:
 }
 ```
 
-## 🔄 Akış Diyagramı
+## 🔄 Flow Diagram
 
-1. **Kullanıcı konuşur** → Mikrofon sesi WebRTC üzerinden alınır
-2. **VAD algılama** → Silero VAD konuşma durduğunda tetiklenir
-3. **STT** → Groq Whisper sesi metne çevirir
-4. **Agent işleme** → LangGraph ReAct agent metni işler
-5. **Tool çağrısı** (opsiyonel) → Gerekirse n8n webhook'u çağrılır
-6. **TTS** → ElevenLabs yanıtı sese çevirir
-7. **Ses çıkışı** → Kullanıcıya sesli yanıt verilir
+1. **User speaks** → Microphone audio captured via WebRTC
+2. **VAD detection** → Silero VAD triggers when speech stops
+3. **STT** → Groq Whisper converts speech to text
+4. **Agent processing** → LangGraph ReAct agent processes the text
+5. **Tool call** (optional) → n8n webhook invoked if needed
+6. **TTS** → ElevenLabs converts response to speech
+7. **Audio output** → Voice response played to user
 
-## 🐛 Sorun Giderme
+## 🐛 Troubleshooting
 
-### Ses algılanmıyor
-- Mikrofon izinlerini kontrol edin
-- VAD eşik değerlerini düşürün
+### Audio not detected
+- Check microphone permissions
+- Lower VAD threshold values
 
-### Yavaş yanıt
-- İnternet bağlantınızı kontrol edin
-- Groq API limitlerini kontrol edin
+### Slow response
+- Check your internet connection
+- Verify Groq API rate limits
 
-### Tool çağrıları çalışmıyor
-- n8n webhook URL'inin doğru olduğundan emin olun
-- Webhook'un aktif olduğunu kontrol edin
+### Tool calls not working
+- Ensure n8n webhook URL is correct
+- Verify webhook is active
 
-## 📜 Lisans
+## 📜 License
 
 MIT License
 
-## 🤝 Katkıda Bulunma
+## 🤝 Contributing
 
-Pull request'ler memnuniyetle karşılanır. Büyük değişiklikler için önce bir issue açarak tartışmaya başlayın.
-
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
